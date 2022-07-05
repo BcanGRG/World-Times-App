@@ -4,9 +4,10 @@ import 'package:world_times_app/product/utils/color_constants.dart';
 import 'package:world_times_app/product/utils/font_sizes.dart';
 import 'package:world_times_app/product/widgets/change_theme_button_widget.dart';
 
+@immutable
 class MainView extends StatelessWidget {
   MainView({Key? key}) : super(key: key);
-  TextEditingController textController = TextEditingController();
+  final TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +17,7 @@ class MainView extends StatelessWidget {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
+            //* AppBar
             AppBar(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
@@ -24,7 +26,9 @@ class MainView extends StatelessWidget {
               ),
               toolbarHeight: context.dynamicHeight(150 / 812),
               titleSpacing: context.dynamicWidth(33 / 375),
-              title: Column(
+              title:
+                  //* İsim , Tarih saat
+                  Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   //* Good mornin text
@@ -58,9 +62,12 @@ class MainView extends StatelessWidget {
               ),
               elevation: 0,
               actions: [
+                //* Tema değiştirme butonu
                 ChangeThemeButtonWidget(),
               ],
             ),
+
+            //* Search Textfield
             Positioned(
                 left: context.dynamicWidth(33 / 375),
                 right: context.dynamicWidth(33 / 375),
@@ -96,6 +103,7 @@ class MainView extends StatelessWidget {
           ],
         ),
       ),
+      //* Ülke Şehirler ListView
       body: Padding(
         padding: EdgeInsets.symmetric(
           vertical: context.dynamicHeight(42 / 812),
