@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:world_times_app/core/extensions/context_extension.dart';
+import 'package:world_times_app/product/utils/color_constants.dart';
 import 'package:world_times_app/product/utils/font_sizes.dart';
 import 'package:world_times_app/product/widgets/change_theme_button_widget.dart';
 
 class MainView extends StatelessWidget {
-  const MainView({Key? key}) : super(key: key);
-
+  MainView({Key? key}) : super(key: key);
+  TextEditingController textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.backgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(context.dynamicHeight(167 / 812)),
         child: Stack(
@@ -64,25 +66,61 @@ class MainView extends StatelessWidget {
                 right: context.dynamicWidth(33 / 375),
                 top: context.dynamicHeight(167 / 812),
                 child: TextField(
+                  controller: textController,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(12),
                     //TODO Bu icon tasarımdaki ile değişecek
                     prefixIcon: Icon(Icons.search),
                     hintText: "Arama",
-                    fillColor: Colors.red,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(32),
-                        borderSide: BorderSide(
-                          color: Colors.red,
-                        )),
+                    hintStyle: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: FontSizes.low.size,
+                      color: ColorConstants.prussianBlue,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: BorderSide(
+                        color: context.theme.focusColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(32),
+                      borderSide: BorderSide(
+                        color: context.theme.focusColor,
+                      ),
+                    ),
                   ),
                 )),
           ],
         ),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) => ListTile(
-          leading: Text("SElam"),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: context.dynamicHeight(42 / 812),
+          horizontal: context.dynamicWidth(33 / 375),
+        ),
+        child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: 15,
+          itemBuilder: (context, index) => Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: context.dynamicHeight(10 / 812),
+            ),
+            child: ListTile(
+              tileColor: context.theme.appBarTheme.backgroundColor,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              leading: Text(
+                "Africa, Abidjan",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: FontSizes.lowmid.size,
+                  color: context.theme.primaryColor,
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
