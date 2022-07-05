@@ -7,12 +7,14 @@ class ThemeDatas {
     appBarTheme: AppBarTheme(backgroundColor: ColorConstants.solitudeBlue),
     primaryColor: ColorConstants.prussianBlue,
     backgroundColor: ColorConstants.zirconWhite,
+    focusColor: ColorConstants.dullLavenderBlue,
     fontFamily: GoogleFonts.montserrat().fontFamily,
   );
   static final darkTheme = ThemeData(
     appBarTheme: AppBarTheme(backgroundColor: ColorConstants.resolutionBlue),
     primaryColor: Colors.white,
     backgroundColor: ColorConstants.prussianBlue,
+    focusColor: ColorConstants.resolutionBlue,
     fontFamily: GoogleFonts.montserrat().fontFamily,
   );
 }
