@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:world_times_app/core/extensions/context_extension.dart';
-import 'package:world_times_app/feature/main/service/main_service.dart';
 import 'package:world_times_app/feature/main/viewmodel/main_cubit.dart';
 import 'package:world_times_app/feature/main/viewmodel/main_state.dart';
 import 'package:world_times_app/feature/secondary/view/secondary_view.dart';
