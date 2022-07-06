@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:world_times_app/core/extensions/context_extension.dart';
+import 'package:world_times_app/feature/main/service/main_service.dart';
+import 'package:world_times_app/feature/main/viewmodel/main_cubit.dart';
+import 'package:world_times_app/feature/main/viewmodel/main_state.dart';
+import 'package:world_times_app/feature/secondary/view/secondary_view.dart';
 import 'package:world_times_app/product/utils/color_constants.dart';
 import 'package:world_times_app/product/utils/font_sizes.dart';
 import 'package:world_times_app/product/widgets/change_theme_button_widget.dart';
@@ -11,7 +16,6 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.backgroundColor,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(context.dynamicHeight(167 / 812)),
         child: Stack(
@@ -31,7 +35,7 @@ class MainView extends StatelessWidget {
                   Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  //* Good mornin text
+                  //* Good morning text
                   Text(
                     "Günaydın, Burak Can!",
                     style: TextStyle(
@@ -43,7 +47,7 @@ class MainView extends StatelessWidget {
 
                   //* Time text
                   Text(
-                    "09 : 54",
+                    context.read<MainCubit>().time,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: FontSizes.extralarge.size,
@@ -51,7 +55,7 @@ class MainView extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "8 Haziran, Çarşamba",
+                    context.read<MainCubit>().allDate,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: FontSizes.lowmid.size,
@@ -109,26 +113,46 @@ class MainView extends StatelessWidget {
           vertical: context.dynamicHeight(42 / 812),
           horizontal: context.dynamicWidth(33 / 375),
         ),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: 15,
-          itemBuilder: (context, index) => Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: context.dynamicHeight(10 / 812),
-            ),
-            child: ListTile(
-              tileColor: context.theme.appBarTheme.backgroundColor,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              leading: Text(
-                "Africa, Abidjan",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: FontSizes.lowmid.size,
-                  color: context.theme.primaryColor,
-                ),
-              ),
-            ),
-          ),
+        child: BlocConsumer<MainCubit, MainState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is MainLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: context.read<MainCubit>().fetchedTimeZones?.length,
+                itemBuilder: (context, index) {
+                  List? timezoneList = context.read<MainCubit>().fetchedTimeZones;
+                  context.read<MainCubit>().fetchedTimeZones;
+                  return Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: context.dynamicHeight(10 / 812),
+                    ),
+                    // TODO Right Arrow Eklenecek
+                    child: ListTile(
+                      tileColor: context.theme.appBarTheme.backgroundColor,
+                      shape:
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      leading: Text(
+                        // TODO Virgül şeklinde yazım yapılacak
+                        timezoneList?[index] ?? "Null",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: FontSizes.lowmid.size,
+                          color: context.theme.primaryColor,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => SecondaryView(
+                                  timezone: timezoneList?[index],
+                                )));
+                      },
+                    ),
+                  );
+                });
+          },
         ),
       ),
     );
