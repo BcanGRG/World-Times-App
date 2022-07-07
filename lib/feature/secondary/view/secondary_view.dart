@@ -4,8 +4,8 @@ import 'package:world_times_app/core/extensions/context_extension.dart';
 import 'package:world_times_app/feature/secondary/service/world_time_service.dart';
 import 'package:world_times_app/feature/secondary/viewmodel/world_time_cubit.dart';
 import 'package:world_times_app/feature/secondary/viewmodel/world_time_state.dart';
+import 'package:world_times_app/feature/secondary/widgets/clock_widget.dart';
 import 'package:world_times_app/product/utils/assets_constants.dart';
-import 'package:world_times_app/product/utils/color_constants.dart';
 import 'package:world_times_app/product/utils/font_sizes.dart';
 
 class SecondaryView extends StatelessWidget {
@@ -17,31 +17,7 @@ class SecondaryView extends StatelessWidget {
       create: (context) =>
           WorldTimeCubit(service: WorldTimeService(), timezone: timezone),
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: context.dynamicHeight(90 / 812),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(32),
-            ),
-          ),
-          leading: InkWell(
-            child: Image.asset(
-              AssetsConstants.arrowBackIcon,
-              color: context.theme.primaryColor,
-            ),
-            onTap: () => Navigator.of(context).pop(),
-          ),
-          title: Text(
-            "WORLD TIME",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: FontSizes.mid.size,
-              color: context.theme.primaryColor,
-            ),
-          ),
-        ),
+        appBar: buildAppBar(context),
         body: BlocConsumer<WorldTimeCubit, WorldTimeState>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -50,74 +26,14 @@ class SecondaryView extends StatelessWidget {
             }
             return Column(
               children: [
-                SizedBox(height: context.dynamicHeight(50 / 812)),
+                customSizedBox(context, 50),
+
                 //* Saat Kısmı
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Spacer(),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        width: 140,
-                        height: 140,
-                        decoration: BoxDecoration(
-                          color: context.theme.splashColor,
-                          border: Border.all(
-                            color: ColorConstants.prussianBlue,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          context.read<WorldTimeCubit>().hour,
-                          style: TextStyle(
-                            color: context.theme.primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: FontSizes.xxlarge.size,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Text(
-                        ":",
-                        textScaleFactor: 5,
-                        style: TextStyle(
-                          color: context.theme.primaryColor,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        width: 140,
-                        height: 140,
-                        decoration: BoxDecoration(
-                          color: context.theme.splashColor,
-                          border: Border.all(
-                            color: ColorConstants.prussianBlue,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          context.read<WorldTimeCubit>().minute,
-                          style: TextStyle(
-                            color: context.theme.primaryColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: FontSizes.xxlarge.size,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-                SizedBox(height: context.dynamicHeight(28 / 812)),
+                ClockWidget(),
+
+                customSizedBox(context, 28),
+
+                //* Location Text
                 Text(
                   context.read<WorldTimeCubit>().location,
                   style: TextStyle(
@@ -126,6 +42,8 @@ class SecondaryView extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+
+                //* Area Text
                 Text(
                   context.read<WorldTimeCubit>().area,
                   style: TextStyle(
@@ -134,7 +52,8 @@ class SecondaryView extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                SizedBox(height: context.dynamicHeight(10 / 812)),
+
+                customSizedBox(context, 10),
 
                 Text(
                   context.read<WorldTimeCubit>().weekAbbreviationOffset,
@@ -144,6 +63,8 @@ class SecondaryView extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+
+                //*  AllDate Text
                 Text(
                   context.read<WorldTimeCubit>().allDate,
                   style: TextStyle(
@@ -155,6 +76,37 @@ class SecondaryView extends StatelessWidget {
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  SizedBox customSizedBox(BuildContext context, double size) =>
+      SizedBox(height: context.dynamicHeight(size / 812));
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      toolbarHeight: context.dynamicHeight(90 / 812),
+      automaticallyImplyLeading: false,
+      centerTitle: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(32),
+        ),
+      ),
+      leading: InkWell(
+        child: Image.asset(
+          AssetsConstants.arrowBackIcon,
+          color: context.theme.primaryColor,
+        ),
+        onTap: () => Navigator.of(context).pop(),
+      ),
+      title: Text(
+        "WORLD TIME",
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          fontSize: FontSizes.mid.size,
+          color: context.theme.primaryColor,
         ),
       ),
     );
