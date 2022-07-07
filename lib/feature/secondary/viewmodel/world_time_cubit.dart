@@ -44,8 +44,9 @@ class WorldTimeCubit extends Cubit<WorldTimeState> {
 
   void formattedDate(DateTime date) {
     initializeDateFormatting('tr_TR', "").then((_) {
-      hour = DateFormat.H('tr_TR').format(date);
-      minute = DateFormat.m('tr_TR').format(date);
+      var allHour = DateFormat.Hm('tr_TR').format(date);
+      hour = allHour.split(":").first;
+      minute = allHour.split(":").last;
       weekDay = DateFormat.EEEE("tr_TR").format(date);
       weekAbbreviationOffset =
           "$weekDay, ${fetchedWorldTimes?.abbreviation} ${fetchedWorldTimes?.utcOffset}";
