@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:world_times_app/core/extensions/context_extension.dart';
 import 'package:world_times_app/feature/main/viewmodel/main_cubit.dart';
+import 'package:world_times_app/product/utils/assets_constants.dart';
 import 'package:world_times_app/product/utils/color_constants.dart';
 import 'package:world_times_app/product/utils/font_sizes.dart';
 
@@ -16,11 +17,11 @@ class TimezoneSeachTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      autofocus: false,
       controller: textController,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(12),
-        //TODO Bu icon tasarımdaki ile değişecek
-        prefixIcon: Icon(Icons.search),
+        prefixIcon: Image.asset(AssetsConstants.searchIcon),
         hintText: "Arama",
         hintStyle: TextStyle(
           fontWeight: FontWeight.w300,
