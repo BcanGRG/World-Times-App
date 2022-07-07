@@ -35,7 +35,7 @@
 
 ## Demo
 
-![](https://github.com/BcanGRG/Age_In_Minutes/blob/main/app/src/androidTest/java/assets/ageinminutes.gif)
+![](https://github.com/BcanGRG/World-Times-App/blob/main/assets/world_times.gif)
 
 ## Color Reference
 
