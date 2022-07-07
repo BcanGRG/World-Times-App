@@ -13,20 +13,33 @@ class TimezonesListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: context.read<MainCubit>().searchedTimeZones?.length,
-      itemBuilder: (context, index) {
-        List? timezoneList = context.read<MainCubit>().searchedTimeZones;
-        String timezoneText = (timezoneList?[index] as String).replaceAll("/", ", ");
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: context.dynamicHeight(10 / 812),
-          ),
-          child: buildListTile(context, timezoneText, timezoneList, index),
-        );
-      },
-    );
+    int? timezoneListLength = context.read<MainCubit>().searchedTimeZones?.length;
+    List? timezoneList = context.read<MainCubit>().searchedTimeZones;
+
+    return timezoneListLength != 0
+        ? ListView.builder(
+            shrinkWrap: true,
+            itemCount: timezoneListLength,
+            itemBuilder: (context, index) {
+              String timezoneText =
+                  (timezoneList?[index] as String).replaceAll("/", ", ");
+              return Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: context.dynamicHeight(10 / 812),
+                  ),
+                  child: buildListTile(context, timezoneText, timezoneList, index));
+            },
+          )
+        : Center(
+            child: Text(
+              "Sonuç Bulunamadı",
+              style: TextStyle(
+                color: context.theme.primaryColor,
+                fontSize: FontSizes.large.size,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          );
   }
 
   ListTile buildListTile(
