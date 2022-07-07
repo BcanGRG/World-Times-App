@@ -9,7 +9,6 @@ class WorldTimeService {
         endPoint: NetworkRoute.TIMEZONE_URL.rawValue! + "/$timezone",
       );
       final allData = WorldTimeModel.fromJson(response.data);
-      print(allData.timezone);
       return allData;
     } catch (e) {
       throw Exception(e);

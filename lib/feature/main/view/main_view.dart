@@ -20,7 +20,6 @@ class MainView extends StatelessWidget {
       child: BlocConsumer<MainCubit, MainState>(
         listener: (context, state) {},
         builder: (context, state) {
-          print(state);
           if (state is MainLoading) {
             return Center(child: CircularProgressIndicator());
           } else if (state is MainCompleted) {

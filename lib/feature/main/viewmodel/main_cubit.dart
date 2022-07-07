@@ -55,7 +55,6 @@ class MainCubit extends Cubit<MainState> {
       searchedTimeZones = timezoneData;
       emit(MainCompleted());
     } catch (e) {
-      print(e);
       Exception(e);
     }
   }

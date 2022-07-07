@@ -38,7 +38,6 @@ class WorldTimeCubit extends Cubit<WorldTimeState> {
   parseDateTime(String? formattingString) {
     formattingString =
         formattingString?.replaceAll(fetchedWorldTimes?.utcOffset ?? "", "");
-    print(formattingString);
     date = DateTime.parse(formattingString ?? "");
   }
 
@@ -62,13 +61,10 @@ class WorldTimeCubit extends Cubit<WorldTimeState> {
   Future<void> getWorldTimes() async {
     try {
       changeLoadingView();
-      print("alooo");
-      print(timezone);
       final worldTimesData = await service.fetchWorldTime(timezone ?? "");
       changeLoadingView();
       if (worldTimesData is WorldTimeModel) {
         fetchedWorldTimes = worldTimesData;
-        // TODO fonksiyonlar birleştireblinit mi bir bak
         formattedCountry(timezone ?? "");
         parseDateTime(fetchedWorldTimes?.datetime);
         formattedDate(date);
