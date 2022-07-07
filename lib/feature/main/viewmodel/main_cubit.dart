@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 
 class MainCubit extends Cubit<MainState> {
   MainCubit({required this.service}) : super(MainInitial()) {
-    _init();
+    init();
   }
 
   final MainService service;
@@ -14,20 +14,31 @@ class MainCubit extends Cubit<MainState> {
   bool isLoading = false;
 
   List? fetchedTimeZones;
-
+  List? searchedTimeZones;
   DateTime now = DateTime.now();
   late String time;
   late String allDate;
 
+  init() async {
+    formattedDate();
+    await getTimeZones();
+  }
+
   void formattedDate() {
     initializeDateFormatting('tr_TR', "").then((_) {
-      time = DateFormat.Hm('tr_TR').format(now);
+      time = DateFormat.Hm('tr_TR').format(now).replaceAll(":", " : ");
       allDate = DateFormat.yMMMMd("tr_TR").format(now);
     });
   }
 
-  _init() async {
-    await getTimeZones();
+  void searchTimeZones(String query) {
+    final suggestions = fetchedTimeZones?.where((timezone) {
+      final timezonee = timezone.toLowerCase();
+      final input = query.toLowerCase();
+      return timezonee.contains(input);
+    }).toList();
+    searchedTimeZones = suggestions;
+    emit(MainCompleted());
   }
 
   changeLoadingView() {
@@ -41,11 +52,11 @@ class MainCubit extends Cubit<MainState> {
       final timezoneData = await service.fetchTimeZones();
       changeLoadingView();
       fetchedTimeZones = timezoneData;
-      formattedDate();
+      searchedTimeZones = timezoneData;
       emit(MainCompleted());
     } catch (e) {
+      print(e);
       Exception(e);
-      emit(MainError());
     }
   }
 }
