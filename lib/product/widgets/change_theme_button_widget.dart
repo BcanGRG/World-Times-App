@@ -18,6 +18,7 @@ class ChangeThemeButtonWidget extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: IconButton(
+        splashRadius: 25,
         icon: themeProvider.isDarkMode
             ? Image.asset(AssetsConstants.sunIcon)
             : Image.asset(AssetsConstants.moonIcon),
